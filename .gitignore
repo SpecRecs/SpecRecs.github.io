@@ -1,4 +1,34 @@
+# Private Claude Code instructions and local settings
 CLAUDE.local.md
+.claude/settings.local.json
+
+# Editors and IDEs
 .idea/
+.vscode/
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Secrets (e.g. BESTBUY_API_KEY for test/scrape_bestbuy.mjs)
+.env
+.env.*
+!.env.example
+
+# Dependencies and virtualenvs
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+npm-debug.log*
+
+# Scratch scraper output and virtualenv for the test scripts
 test/out/
 test/.venv/
