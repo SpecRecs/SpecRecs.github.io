@@ -1,2 +1,4 @@
 CLAUDE.local.md
 .idea/
+test/out/
+test/.venv/
