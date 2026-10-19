@@ -2,7 +2,7 @@
 
 Research notes on where SpecRecs can get PC hardware specs and benchmark scores. Written 2026-10-17.
 
-**Status:** research only. Nothing below has been downloaded or tested except the TechPowerUp API (queried live on 2026-10-17) and the docyx RAM, motherboard and PSU files (already vendored in `data/`). Field lists and licenses come from each source's own page. Items marked **unverified** were not confirmed.
+**Status:** the recommendation in section 6 was implemented on 2026-10-18, together with docyx storage. Before-and-after coverage results are in `coverage.md`. The research below is as originally written: field lists and licenses come from each source's own page, and items marked **unverified** were not confirmed at the time. `coverage.md` section 3 records what implementation found, including GPU Ark data-quality issues.
 
 ---
 

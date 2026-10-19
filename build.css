@@ -75,6 +75,7 @@ dl.specs dd { margin: 0; text-align: right; }
 .perf { margin-top: 8px; font-size: 0.85rem; }
 .perf-bar { height: 8px; background: var(--line); border-radius: 4px; margin-top: 4px; overflow: hidden; }
 .perf-bar > div { height: 100%; background: var(--accent); }
+.part-src { color: var(--muted); font-size: 0.75rem; margin-top: 6px; }
 form.manual { display: grid; gap: 8px; }
 form.manual label { display: grid; gap: 2px; font-size: 0.85rem; color: var(--muted); }
 .hint { color: var(--muted); font-size: 0.8rem; margin-top: 6px; }

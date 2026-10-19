@@ -1,0 +1,69 @@
+{
+  "gpu": [
+    "GTX 750 Ti", "GTX 960", "GTX 970", "GTX 1050 Ti", "GTX 1060", "GTX 1070", "GTX 1080", "GTX 1080 Ti",
+    "GTX 1650", "GTX 1660 Super", "GTX 1660 Ti", "RTX 2060", "RTX 2060 Super", "RTX 2070 Super", "RTX 2080 Ti",
+    "RTX 3050", "RTX 3060", "RTX 3060 Ti", "RTX 3070", "RTX 3070 Ti", "RTX 3080", "RTX 3090",
+    "RTX 4060", "RTX 4060 Ti", "RTX 4070", "RTX 4070 Super", "RTX 4070 Ti", "RTX 4080", "RTX 4090",
+    "RTX 5060", "RTX 5060 Ti", "RTX 5070", "RTX 5070 Ti", "RTX 5080", "RTX 5090",
+    "RX 570", "RX 580", "RX 5600 XT", "RX 5700 XT", "RX 6600", "RX 6700 XT", "RX 6800 XT", "RX 6900 XT",
+    "RX 7600", "RX 7700 XT", "RX 7800 XT", "RX 7900 XT", "RX 7900 XTX", "RX 9060 XT", "RX 9070", "RX 9070 XT",
+    "Arc A750", "Arc A770", "Arc B580"
+  ],
+  "cpu": [
+    "i5-2500K", "i7-2600K", "i7-3770K", "i7-4790K", "i5-6600K", "i7-6700K", "i7-7700K", "i5-8400", "i7-8700K",
+    "i5-9600K", "i9-9900K", "i5-10400", "i7-10700K", "i9-10900K", "i5-11400F", "i5-12400F", "i5-12600K",
+    "i7-12700K", "i9-12900K", "i5-13400F", "i5-13600K", "i7-13700K", "i9-13900K", "i5-14400F", "i5-14600K",
+    "i7-14700K", "i9-14900K", "Core Ultra 5 245K", "Core Ultra 7 265K", "Core Ultra 9 285K",
+    "FX-8350", "Ryzen 5 1600", "Ryzen 7 1700X", "Ryzen 5 2600", "Ryzen 7 2700X", "Ryzen 5 3600", "Ryzen 7 3700X",
+    "Ryzen 9 3900X", "Ryzen 5 5600", "Ryzen 5 5600X", "Ryzen 7 5700X", "Ryzen 7 5800X3D", "Ryzen 9 5900X",
+    "Ryzen 9 5950X", "Ryzen 5 7600X", "Ryzen 7 7700X", "Ryzen 7 7800X3D", "Ryzen 9 7900X", "Ryzen 9 7950X3D",
+    "Ryzen 5 9600X", "Ryzen 7 9700X", "Ryzen 7 9800X3D", "Ryzen 9 9950X"
+  ],
+  "storage": [
+    "Samsung 990 Pro", "Samsung 990 EVO Plus", "Samsung 980 Pro", "Samsung 980", "Samsung 970 EVO Plus",
+    "Samsung 870 EVO", "Samsung 860 EVO", "Samsung 9100 Pro",
+    { "q": "WD Black SN850X", "want": "sn850x" }, { "q": "WD Black SN770", "want": "sn770" },
+    { "q": "WD Blue SN580", "want": "sn580" }, { "q": "WD Blue SN570", "want": "sn570" },
+    "Crucial P3 Plus", "Crucial P3", "Crucial P5 Plus", "Crucial T500", "Crucial T700", "Crucial MX500",
+    "Kingston NV2", "Kingston KC3000", "Kingston A400",
+    { "q": "SK hynix Platinum P41", "want": "p41" }, "Seagate FireCuda 530", { "q": "Teamgroup MP33", "want": "mp33" },
+    "Sabrent Rocket 4 Plus",
+    { "q": "Seagate BarraCuda 2 TB", "want": "barracuda 2 tb" }, { "q": "WD Blue 1 TB", "want": "blue 1 tb" }
+  ],
+  "ram": [
+    { "q": "Vengeance LPX 3200 2x8", "want": ["vengeance lpx", "ddr4 3200", "2x8"] },
+    { "q": "Vengeance LPX 3200 2x16", "want": ["vengeance lpx", "ddr4 3200", "2x16"] },
+    { "q": "Ripjaws V 3600 2x8", "want": ["ripjaws v", "ddr4 3600", "2x8"] },
+    { "q": "Trident Z Neo 3600 2x16", "want": ["trident z neo", "ddr4 3600", "2x16"] },
+    { "q": "Vengeance RGB 6000 2x16", "want": ["vengeance rgb", "ddr5 6000", "2x16"] },
+    { "q": "Trident Z5 RGB 6000 2x16", "want": ["trident z5 rgb", "ddr5 6000", "2x16"] },
+    { "q": "Fury Beast 5600 2x16", "want": ["fury beast", "ddr5 5600", "2x16"] },
+    { "q": "Ballistix 3200 2x8", "want": ["ballistix", "ddr4 3200", "2x8"] },
+    { "q": "Delta RGB 3200 2x8", "want": ["delta rgb", "ddr4 3200", "2x8"] },
+    { "q": "Dominator Platinum RGB 6000 2x16", "want": ["dominator platinum rgb", "ddr5 6000", "2x16"] },
+    { "q": "HyperX Fury DDR3 1600 2x4", "want": ["hyperx fury", "ddr3 1600", "2x4"] },
+    { "q": "Vengeance DDR3 1600 2x4", "want": ["vengeance", "ddr3 1600", "2x4"] }
+  ],
+  "motherboard": [
+    { "q": "ROG Strix B550-F Gaming", "want": "strix b550 f gaming" },
+    { "q": "B450 Tomahawk Max", "want": "b450 tomahawk max" },
+    { "q": "B650 Tomahawk", "want": "b650 tomahawk" },
+    { "q": "TUF Gaming X570-Plus", "want": "x570 plus" },
+    { "q": "B550 Aorus Elite", "want": "b550 aorus elite" },
+    { "q": "B450M Pro4", "want": "b450m pro4" },
+    { "q": "Z790-A WiFi", "want": "z790 a wifi" },
+    { "q": "Strix Z690-E", "want": "strix z690 e" },
+    { "q": "Z390 Aorus Pro", "want": "z390 aorus pro" },
+    { "q": "Prime Z270-A", "want": "prime z270 a" },
+    { "q": "Prime B760M-A", "want": "prime b760m a" },
+    { "q": "X870E Aorus Master", "want": "x870e aorus master" },
+    { "q": "B650M Pro RS", "want": "b650m pro rs" }
+  ],
+  "psu": [
+    "RM850x", "RM750x", "RM650", { "q": "SuperNOVA 750 G5", "want": "supernova 750 g5" },
+    { "q": "EVGA 600 BR", "want": "600 br" }, { "q": "Focus GX-750", "want": "focus gx 750" },
+    { "q": "Prime TX-1000", "want": "prime tx 1000" }, { "q": "Straight Power 11 750", "want": "straight power 11 750" },
+    { "q": "MWE Gold 750 V2", "want": "mwe gold 750 v2" }, { "q": "Toughpower GF1 850", "want": "toughpower gf1 850" },
+    "CX650M", "A850GL", "HX1000i", "SF750"
+  ]
+}
