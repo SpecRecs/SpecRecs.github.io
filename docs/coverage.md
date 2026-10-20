@@ -1,5 +1,7 @@
 # SpecRecs: Search Coverage Test
 
+**File locations (2026-10-19):** the page was ported to Vite + TypeScript after this was written. `build.js` is now `src/build/` (`sources.ts`, `search.ts`, `main.ts`), `build.css` is `src/build/build.css`, and `data/*.json` is `public/data/*.json`. Run the page with `npm run dev`. Paths below are as they were at the time.
+
 How many well-known PC parts the "My PC" page (`build.html`) can find, and how much data it shows for each. The test ran once before and once after implementing the dataset recommendation in `datasets.md`.
 
 **Result:** parts found went from **106 of 173 (61%)** to **172 of 173 (99%)**. Parts with a performance score went from **32 (18%)** to **106 (61%)**, which is every CPU and GPU except one. Nothing that was found before was lost.

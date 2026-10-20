@@ -1,5 +1,7 @@
 # SpecRecs: Dataset Options
 
+**File locations (2026-10-19):** the page was ported to Vite + TypeScript after this was written. `build.js` is now `src/build/` (`sources.ts`, `search.ts`, `main.ts`), `build.css` is `src/build/build.css`, and `data/*.json` is `public/data/*.json`. Run the page with `npm run dev`. Paths below are as they were at the time.
+
 Research notes on where SpecRecs can get PC hardware specs and benchmark scores. Written 2026-10-17.
 
 **Status:** the recommendation in section 6 was implemented on 2026-10-18, together with docyx storage. Before-and-after coverage results are in `coverage.md`. The research below is as originally written: field lists and licenses come from each source's own page, and items marked **unverified** were not confirmed at the time. `coverage.md` section 3 records what implementation found, including GPU Ark data-quality issues.

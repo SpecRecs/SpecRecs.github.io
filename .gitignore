@@ -33,6 +33,5 @@ npm-debug.log*
 test/out/
 test/.venv/
 
-local/
 # Vite build output
 dist/

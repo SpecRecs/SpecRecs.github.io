@@ -1,5 +1,7 @@
 # Plan: "My PC" build collector test UI
 
+**File locations (2026-10-19):** the page was ported to Vite + TypeScript after this was written. `build.js` is now `src/build/` (`sources.ts`, `search.ts`, `main.ts`), `build.css` is `src/build/build.css`, and `data/*.json` is `public/data/*.json`. Run the page with `npm run dev`. Paths below are as they were at the time.
+
 ## Context
 SpecRecs (static GitHub Pages site, currently a "Coming Soon" `index.html`) needs a test UI that records a user's current PC build. Each component type gets a section with a search box. Searching queries TechPowerUp, and the chosen part is added to the build with its performance specs shown. Price is out of scope.
 
