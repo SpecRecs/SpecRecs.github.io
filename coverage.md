@@ -19,7 +19,7 @@ How many well-known PC parts the "My PC" page (`build.html`) can find, and how m
   | Motherboard | 13 | AMD B450 to X870E, Intel Z270 to Z790 |
   | PSU | 14 | 600 W to 1000 W units |
 
-- **What it runs:** `test/coverage.mjs` loads the page's own `build.js` in a Node sandbox with a stub DOM. It calls `runSearch()` exactly as the search box does, so the test measures the code that ships, not a copy of it.
+- **What it runs:** `test/coverage.mjs` imports the page's own search module (`src/build/search.ts`; before the Vite port, `build.js` in a Node sandbox with a stub DOM). It calls `runSearch()` exactly as the search box does, so the test measures the code that ships, not a copy of it.
 - **Found:** a part counts as found if it appears in the 15 results the dropdown shows. Every wanted phrase must match whole words, and a variant word right after the model does not count. For example, "RTX 4070 Ti" does not count as "RTX 4070", and "Crucial P3 Plus" does not count as "Crucial P3".
 - **With performance score:** the found part shows at least one performance bar: TechPowerUp's relative performance, or (after the update) a Blender render score.
 - **Avg. filled spec rows:** the average number of spec rows with a real value (no "—") for found parts.
@@ -27,11 +27,11 @@ How many well-known PC parts the "My PC" page (`build.html`) can find, and how m
   - The 134 TechPowerUp queries (GPU, CPU and storage) were collected once, over three resumed runs on 2026-10-17 and 2026-10-18.
   - The after-update run reused those cached responses and made **no** live TechPowerUp calls. The TechPowerUp code path is the same in both versions, so this doesn't affect the comparison.
 
-Run it yourself (Node 18 or later):
+Run it yourself (Node 22.18 or later):
 
 ```
-node test/coverage.mjs pre --app <path to an older build.js>   # a run against another version of build.js
-node test/coverage.mjs post                                    # a run against the current build.js
+node test/coverage.mjs pre --app <path to an old build.js>     # a run against a pre-Vite build.js from git history
+node test/coverage.mjs post                                    # a run against the current src/build/search.ts
 node test/coverage.mjs --compare pre post                      # comparison table
 ```
 

@@ -32,3 +32,7 @@ npm-debug.log*
 # Scratch scraper output and virtualenv for the test scripts
 test/out/
 test/.venv/
+
+local/
+# Vite build output
+dist/

@@ -1,12 +1,13 @@
 // Coverage test for the "My PC" search: how many well-known parts (test/coverage_refs.json) it finds,
-// and how complete their data is. Runs build.js in a sandbox with a stub DOM and calls its own runSearch().
-// Node 18+, no dependencies.
+// and how complete their data is. Imports the page's own search module (src/build/search.ts) and calls
+// runSearch() exactly as the search box does. Node 22.18+ (runs the TypeScript directly), no dependencies.
+// --app <path to an old build.js> instead runs a pre-Vite version in a sandbox with a stub DOM.
 // TechPowerUp blocks rapid repeat requests ("Repeated loading of same URL"); in testing it allowed about
 // 2-3 requests per 4 minutes. Live queries are spaced 75 s apart, back off when blocked, and successful
 // responses are cached in test/out/tpu-cache.json, so an interrupted run resumes and later runs reuse
 // them. Delete that file to re-query TechPowerUp.
 // Usage:
-//   node test/coverage.mjs <label> [--app <path to build.js>]   # markdown report; saves test/out/coverage-<label>.json
+//   node test/coverage.mjs <label> [--app <path to old build.js>]   # markdown report; saves test/out/coverage-<label>.json
 //   node test/coverage.mjs --compare <a> <b>                     # compares two saved runs by label
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
@@ -14,6 +15,7 @@ import { pathToFileURL } from "node:url";
 import vm from "node:vm";
 
 const ROOT = new URL("../", import.meta.url);
+const PUBLIC = new URL("public/", ROOT);
 const OUT = new URL("./out/", import.meta.url);
 const CACHE = new URL("tpu-cache.json", OUT);
 const UA = "SpecRecs-coverage-test/0.1 (+https://github.com/SpecRecs/SpecRecs.github.io)";
@@ -40,7 +42,7 @@ const matches = (part, wants) => {
 };
 const filledRows = (specs) => specs.filter(([, v]) => v != null && v !== "" && !String(v).includes("—")).length;
 
-// ---- sandbox: build.js with a stub DOM, local data/ files served from disk ----
+// ---- the app's search, with local data/ files served from public/ on disk ----
 const JSON_HEADERS = { "content-type": "application/json" };
 let cache = {};
 let blocked = null;
@@ -78,13 +80,20 @@ async function sandboxFetch(url, opts = {}) {
   url = String(url);
   if (/^https?:/.test(url)) return liveFetch(url, opts);
   try {
-    return new Response(await readFile(new URL(url, ROOT)), { headers: JSON_HEADERS });
+    // "/data/x.json" from src/build/search.ts, or "data/x.json" from an old build.js.
+    return new Response(await readFile(new URL(url.replace(/^\//, ""), PUBLIC)), { headers: JSON_HEADERS });
   } catch {
     return new Response("not found", { status: 404 });
   }
 }
 
 async function loadApp(appUrl) {
+  if (!appUrl) {
+    globalThis.fetch = sandboxFetch;
+    const { runSearch } = await import(new URL("src/build/search.ts", ROOT));
+    const { SOURCES } = await import(new URL("src/build/sources.ts", ROOT));
+    return { SOURCES, runSearch };
+  }
   const node = () => ({ style: {}, setAttribute() {}, addEventListener() {}, append() {}, replaceChildren() {} });
   const ctx = vm.createContext({
     console, setTimeout, clearTimeout, AbortController, URL,
@@ -104,8 +113,7 @@ async function run(label, appPath) {
   await mkdir(OUT, { recursive: true });
   cache = JSON.parse(await readFile(CACHE, "utf8").catch(() => "{}"));
   const refs = JSON.parse(await readFile(new URL("coverage_refs.json", import.meta.url), "utf8"));
-  const appUrl = appPath ? pathToFileURL(resolve(appPath)) : new URL("build.js", ROOT);
-  const app = await loadApp(appUrl);
+  const app = await loadApp(appPath && pathToFileURL(resolve(appPath)));
   const results = {};
   for (const [key, list] of Object.entries(refs)) {
     results[key] = [];
@@ -133,7 +141,7 @@ async function run(label, appPath) {
       process.stderr.write(`${key} ${row.found ? "✓" : "✗"} ${q}${row.error ? ` (${row.error})` : ""}\n`);
     }
   }
-  const saved = { label, date: new Date().toISOString(), app: appPath ?? "build.js", tpu: { ...cacheStats }, results };
+  const saved = { label, date: new Date().toISOString(), app: appPath ?? "src/build/search.ts", tpu: { ...cacheStats }, results };
   await writeFile(new URL(`coverage-${label}.json`, OUT), JSON.stringify(saved, null, 2));
   console.log(report(saved));
 }

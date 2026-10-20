@@ -11,7 +11,7 @@ const GPUARK = "https://huggingface.co/datasets/Intelion/gpuark-gpu-dataset/reso
 const BLENDER = "https://opendata.blender.org/benchmarks/query/";
 const BLENDER_VERSION = "4.5.0"; // the version with the most CPUs and GPUs tested; scores differ between versions
 const GPU_BACKENDS = ["OPTIX", "CUDA", "HIP", "ONEAPI", "METAL"];
-const OUT = new URL("../data/", import.meta.url);
+const OUT = new URL("../public/data/", import.meta.url); // served by Vite as /data/
 mkdirSync(OUT, { recursive: true });
 
 const DOCYX_SETS = {
