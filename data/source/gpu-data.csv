@@ -1,0 +1,62 @@
+GPU,VRAM,Upscaler,~ 1080p FPS*,~ 1440p FPS*,~ 4K FPS,New Retail Price (must be in stock),Median Ebay Sell Price,Best Price: Used or New?,Best Price,1440P Price / Perf,Used vs New Discount,Notes
+Radeon RX 5700,8,FSR 3.1,61,44,23,--,$122,Used,$122,$2.77,40%,<-- Input to change threshold at which new GPUs are preferred over used
+Radeon RX 5700 XT,8,FSR 3.1,67,48,24,--,$148,Used,$148,$3.08,,
+GeForce RTX 2070 Super,8,DLSS 4,74,54,29,--,$172,Used,$172,$3.21,Instructions:,"Under File, Click ""Download"" OR"
+GeForce RTX 2080 Super,8,DLSS 4,84,61,33,--,$196,Used,$196,$3.22,,Click Here to Make A Copy (Requires Google Drive Account)
+GeForce RTX 2080,8,DLSS 4,80,58,32,--,$187,Used,$187,$3.24,,Put in New Retail Pricing (if available)
+GeForce RTX 2070,8,DLSS 4,65,47,26,--,$162,Used,$162,$3.44,,Put in Ebay Spot Price (or your used market)
+Radeon RX 5500 XT,8,FSR 3.1,42,30,15,--,$104,Used,$104,$3.47,,"Highlight All Columns A - K and Under ""Data"" Menu click ""Add Filter"
+GeForce RTX 2060 Super,8,DLSS 4,63,45,25,--,$163,Used,$163,$3.59,,"Sort (or filter) for ""1440P Price / Perf"" Ascending"
+GeForce RTX 3070 & Ti,8,DLSS 4,98,71,39,--,$261,Used,$261,$3.68,,Enjoy!
+GeForce RTX 3080,10,DLSS 4,122,92,55,--,$353,Used,$353,$3.84,,"NOTE: Use the ""Used vs New"" discount to set the minimum used discount to utilize the used pricing instead of the new price"
+GeForce RTX 2080 Ti,11,DLSS 4,98,71,39,--,$274,Used,$274,$3.86,,
+GeForce RTX 3060 Ti,8,DLSS 4,84,61,34,--,$237,Used,$237,$3.89,,"* Estimated FPS based on RTX 5060 Ti 16GB Review FPS for RX 7700 XT, multiplied by Techpowerup scaling. The older the GPU being compared, the more variance this value will have in reality."
+Radeon RX 6950 XT,16,FSR 3.1,145,110,62,--,$451,Used,$451,$4.10,,Last Update 9/28/26
+Intel ARC A750,8,XeSS 3,60,46,28,$189,$157,New,$189,$4.11,,Performance Data Sources Aggregated based on Rasterized data from:
+Radeon RX 6600/6650 XT,8,FSR 3.1,65,49,24,--,$202,Used,$202,$4.12,,"Techpowerup, Techspot, Tom's Hardware"
+Radeon RX 6700,10,FSR 3.1,66,55,26,--,$228,Used,$228,$4.15,,Some scores adjusted based on additional 3rd party benchmarks.
+Radeon RX 6900 XT,16,FSR 3.1,132,98,55,--,$408,Used,$408,$4.16,,"See individual tabs for scores used for 1080p / High FPS 1080p / 1440p / 4K 80+ Recommendations (60 FPS at high details, most games)"
+GeForce RTX 3080 12GB,12,DLSS 4,130,98,59,--,$417,Used,$417,$4.25,,
+Radeon RX 6800 XT,16,FSR 3.1,118,89,51,--,$381,Used,$381,$4.28,,
+Radeon RX 6700/6750 XT,12,FSR 3.1,84,67,30,--,$288,Used,$288,$4.30,,
+Intel ARC B570,10,XeSS 3,67,60,31,$259,--,New,$259,$4.32,,
+Intel ARC A580,8,XeSS 3,55,41,25,$179,--,New,$179,$4.37,,
+Radeon RX 6800,16,FSR 3.1,104,77,43,--,$338,Used,$338,$4.39,,
+Radeon RX 6600,8,FSR 3.1,55,40,21,--,$187,Used,$187,$4.68,,
+Radeon RX 7700 XT,12,FSR 4.1,104,77,43,--,$378,Used,$378,$4.91,,
+Intel ARC B580,12,XeSS 3,76,67,35,$329,$289,New,$329,$4.91,,
+GeForce RTX 3080 Ti,12,DLSS 4,132,100,60,--,$491,Used,$491,$4.92,,Change log
+GeForce RTX 4060 Ti,8,DLSS 4.5,94,65,35,--,$322,Used,$322,$4.95,,"4/2/26 - Revised entire spreadsheet. Added 1080p, 1440p, & 4K FPS estimates"
+Radeon RX 7900 GRE,16,FSR 4.1,133,99,57,--,$501,Used,$501,$5.06,,4/27/26 - Fixed errors in RX 6700/6750 XT and RX 5500 8GB performance data
+Radeon RX 7900 XT,20,FSR 4.1,155,117,69,--,$619,Used,$619,$5.29,,4/29/26 - Fixed FPS errors in some older budget tier GPUs
+Radeon RX 9070,16,FSR 4.1,152,120,72,$649,$616,New,$649,$5.41,,6/16/26 - Added RX 9070 GRE 12GB
+Radeon RX 7800 XT,16,FSR 4.1,121,90,52,--,$487,Used,$487,$5.41,,7/6/26 Updated RX 9070 GRE / 9070 / 9070 XT and RTX 5070 / 5070 Ti FPS estimates based on more recent benchmarks
+Radeon RX 9070 GRE,12,FSR 4.1,133,100,60,$549,--,New,$549,$5.49,,7/30/26 Now filtering out used non-FSR 4 Radeon GPUs in results at 1440p or higher. They remain in the main table and pricing is updated.
+GeForce RTX 4070 Super,12,DLSS 4.5,139,103,58,--,$566,Used,$566,$5.50,,9/2/26 - Revised FPS for mostly for ARC GPUs based on recent testing. Some older models also adjusted at 1440p.
+Radeon RX 7600 XT,16,FSR 4.1,76,63,30,--,$347,Used,$347,$5.51,,
+GeForce RTX 3060 8GB,8,DLSS 4,54,40,23,--,$220,Used,$220,$5.52,,
+GeForce RTX 4060,8,DLSS 4.5,74,53,28,--,$293,Used,$293,$5.53,,
+Radeon RX 9060 XT,8,FSR 4.1,97,72,36,$399,$370,New,$399,$5.54,,
+GeForce RTX 4070 Ti,12,DLSS 4.5,148,110,63,--,$619,Used,$619,$5.63,,
+GeForce RTX 4070,12,DLSS 4.5,123,88,51,--,$512,Used,$512,$5.82,,
+Intel ARC A770,16,XeSS 3,68,50,30,--,$291,Used,$291,$5.82,,
+GeForce RTX 5060 Ti,8,DLSS 4.5,106,75,39,$449,$391,New,$449,$5.99,,
+Radeon RX 9070 XT,16,FSR 4.1,172,133,80,$799,$669,New,$799,$6.01,,
+GeForce RTX 5060,8,DLSS 4.5,94,66,34,$399,$340,New,$399,$6.05,,
+Radeon RX 7600,8,FSR 4.1,69,55,24,$339,$248,New,$339,$6.16,,
+Radeon RX 7900 XTX,24,FSR 4.1,174,135,81,--,$879,Used,$879,$6.51,,
+GeForce RTX 4070 Ti Super,16,DLSS 4.5,158,119,69,--,$801,Used,$801,$6.73,,
+Radeon RX 9060 XT,16,FSR 4.1,100,74,41,$499,$437,New,$499,$6.74,,
+GeForce RTX 4080 & Super,16,DLSS 4.5,180,139,81,--,$968,Used,$968,$6.96,,
+GeForce RTX 4060 Ti,16,DLSS 4.5,95,68,37,--,$510,Used,$510,$7.50,,
+GeForce RTX 3050,8,DLSS 4,44,33,18,$259,$170,New,$259,$7.85,,
+GeForce RTX 5070,12,DLSS 4.5,144,106,63,$839,$656,New,$839,$7.92,,
+GeForce RTX 5050,8,DLSS 4.5,72,51,26,$419,$289,New,$419,$8.22,,
+GeForce RTX 5070 Ti,16,DLSS 4.5,172,133,80,"$1,120",$979,New,"$1,120",$8.42,,
+GeForce RTX 3060 12GB,12,DLSS 4,64,48,27,$449,$288,New,$449,$9.35,,
+GeForce RTX 5060 Ti,16,DLSS 4.5,108,77,44,$779,$625,New,$779,$10.12,,
+GeForce RTX 5080,16,DLSS 4.5,188,149,92,"$1,600","$1,375",New,"$1,600",$10.74,,
+GeForce RTX 3090 Ti,24,DLSS 4,148,115,70,--,"$1,433",Used,"$1,433",$12.46,,
+GeForce RTX 3090,24,DLSS 4,139,108,66,--,"$1,353",Used,"$1,353",$12.51,,
+GeForce RTX 4090,24,DLSS 4.5,215,172,106,--,"$2,569",Used,"$2,569",$14.94,,
+GeForce RTX 5090,32,DLSS 4.5,240,206,139,"$7,000","$4,811",New,"$7,000",$33.98,,
