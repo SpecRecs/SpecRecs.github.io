@@ -112,13 +112,15 @@ export function Questionnaire() {
 
 function BudgetFields({ request, update }: { request: UserRequest; update: (p: Partial<UserRequest>) => void }) {
   // Number inputs report "" while empty; store that as "not answered".
+  // The arrows step through min + n × step, so min stays 0 to keep them on round $50 amounts.
+  // $0 is still rejected by stepError().
   const toUsd = (s: string) => (s === "" ? undefined : Number(s));
   return (
     <div className="budget">
       <label>
         Maximum budget (USD)
         <input
-          type="number" inputMode="numeric" min={1} step={50} placeholder="e.g. 1500"
+          type="number" inputMode="numeric" min={0} step={50} placeholder="e.g. 1500"
           value={request.budget_max_usd ?? ""}
           onChange={(e) => update({ budget_max_usd: toUsd(e.target.value) })}
         />
@@ -126,7 +128,7 @@ function BudgetFields({ request, update }: { request: UserRequest; update: (p: P
       <label>
         Preferred spend (optional)
         <input
-          type="number" inputMode="numeric" min={1} step={50} placeholder="e.g. 1200"
+          type="number" inputMode="numeric" min={0} step={50} placeholder="e.g. 1200"
           value={request.budget_preferred_usd ?? ""}
           onChange={(e) => update({ budget_preferred_usd: toUsd(e.target.value) })}
         />
