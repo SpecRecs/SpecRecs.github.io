@@ -181,7 +181,11 @@ export const userRequest = obj<UserRequest>({
   completed_at: optional(isoDate()),
 });
 
-export const compatibilityConfig = obj<CompatibilityConfig>({ psu_headroom: num({ min: 0, max: 2 }) });
+export const compatibilityConfig = obj<CompatibilityConfig>({
+  psu_headroom: num({ min: 0, max: 2 }),
+  base_system_w: num({ min: 0 }),
+  psu_note_margin: num({ min: 0, max: 1 }),
+});
 
 const recommendedPart = obj<RecommendedPart>({
   component: category(),

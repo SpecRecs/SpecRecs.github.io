@@ -83,7 +83,7 @@ SpecRecs.github.io/
 │   ├── build/                # M6: existing My PC page
 │   └── pages/, components/   # M6
 ├── fixtures/                 # M0: hand-written test catalog (catalog.ts) and requests (requests.ts)
-├── config/                   # M4: workload_weights.json, upgrade_thresholds.json
+├── config/                   # M4: workload_weights.json, upgrade_thresholds.json; M2: compatibility.json
 ├── data/
 │   ├── source/               # M1: curated part sheets, gaming score sheet, prices_manual.csv
 │   └── raw/                  # M1/M3: raw pulls (gitignored)
@@ -197,6 +197,12 @@ Each module brief lists its ownership, inputs, outputs, rules, and definition of
 - **Soft rules:** Returned as `notes`, never as violations.
 - **Rules:** Pure functions with no I/O. Every rule gets a pass test and a fail test. Missing data produces an `unknown` result, not a pass.
 - **Done when:** Every rule has tests against the fixtures, and the edge-case fixtures produce the expected violations.
+- **Status: done (2026-11-25).** Code in `src/compatibility/` (`rules.ts`, `power.ts`, `index.ts`), tests in `test/compatibility/`. Decisions made while building it:
+  - **PSU sizing:** a build needs the larger of (base system draw + CPU TDP + GPU TDP) × (1 + headroom) and the GPU's `recommended_psu_w`. The numbers are in `config/compatibility.json` (headroom 30%, base 75 W). Unknown TDPs can only raise the requirement, so a PSU below the known minimum still fails.
+  - **12V-2x6 adapters:** a card needing 12V-2x6 on a PSU without that cable passes if the PSU has enough 8-pin cables for the card's adapter (one per 150 W, at least two), with a `uses_power_adapter` note.
+  - **Size limits are inclusive:** a 155 mm cooler fits a 155 mm case.
+  - `cpu_board_support` is skipped when the sockets differ (that's already a `socket` failure).
+  - Soft notes: `psu_headroom_low` (within 10% of the requirement), `uses_power_adapter`, `cooler_tdp_low`, `no_wifi`.
 
 ### M3: Pricing Adapter — **TBA**
 

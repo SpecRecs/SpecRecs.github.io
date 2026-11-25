@@ -44,7 +44,7 @@ export interface RuleResult {
 
 // Soft findings. They never invalidate a build.
 export interface CompatibilityNote {
-  code: "psu_headroom_low" | "cooler_tdp_low" | "no_wifi" | "memory_speed_above_rated";
+  code: "psu_headroom_low" | "uses_power_adapter" | "cooler_tdp_low" | "no_wifi";
   components: PartCategory[];
   detail: string;
 }
@@ -58,8 +58,12 @@ export interface CompatibilityReport {
   notes: CompatibilityNote[];
 }
 
-// Tunable numbers, loaded from config/ by the caller.
+// Tunable numbers, from config/compatibility.json. See src/compatibility/power.ts.
 export interface CompatibilityConfig {
-  // Required PSU wattage = estimated system draw × (1 + headroom). e.g. 0.3 for 30%.
+  // Required PSU wattage >= estimated draw × (1 + headroom). e.g. 0.3 for 30%.
   psu_headroom: number;
+  // Draw of everything but the CPU and GPU (board, memory, drives, fans).
+  base_system_w: number;
+  // A PSU within this fraction above the requirement gets a psu_headroom_low note.
+  psu_note_margin: number;
 }
