@@ -1,0 +1,10 @@
+// Type-checks Node-side code (tests, and the pipeline once it moves to TypeScript) with Node's types
+// instead of the browser's. tsconfig.json covers src/ and fixtures/.
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "types": ["node"]
+  },
+  "include": ["test/**/*.ts", "fixtures", "src/types"]
+}

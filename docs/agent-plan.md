@@ -36,9 +36,10 @@ This document splits SpecRecs into independently buildable modules for subagents
 | Catalog | **Two tiers.** The *lookup catalog* (~25,000 parts from open datasets) identifies the user's current parts. The *candidate catalog* (curated, about 20–50 parts per category, with full specs, scores and prices) is the only thing the engine recommends. Each lookup part maps to a candidate by model, so its scores can be compared. |
 | Lookup catalog sources | docyx/pc-part-dataset (CPU, RAM, motherboard, PSU, storage), GPU Ark (GPUs), Blender Open Data (render scores). Attribution goes in the README and UI footer; GPU Ark (CC BY 4.0) requires it. |
 | Candidate catalog | Curated allowlist with hand-entered specs and compatibility fields, in `data/source/` |
-| CPU/GPU performance | **For now:** Blender Open Data render scores (a multi-thread/render measure, not gaming). **Before M4:** gaming scores from a hand-maintained starter sheet in `data/source/`, normalized per §5. |
+| CPU/GPU performance | **For now:** Blender Open Data render scores (a multi-thread/render measure, not gaming). **Before M4:** gaming scores from the hand-maintained starter sheet `data/source/gpu-data.csv`. Gaming is stored as estimated FPS; other dimensions are normalized (§5). |
 | Pricing source | **TBA** (see §6, Module 3) |
-| Gaming performance model | Estimated performance ≈ `min(cpu_gaming_cap, gpu_cap_at_resolution)`. Imbalance is explained, and no bottleneck percentage is shown. |
+| Gaming performance model | Estimated FPS ≈ `min(cpu.perf.gaming_fps, gpu_family.perf.r{res}_fps)`. Both are FPS on the same game suite, so they compare directly. Imbalance is explained, and no bottleneck percentage is shown. |
+| Part IDs | Model slugs that join specs, scores and prices: `ryzen-5-7600`, `rtx-4070` (GPU family), `rtx-4070--asus-dual` (variant). Conventions and helpers in `src/types/ids.ts`. |
 | Data freshness | Snapshot-based. **Pending (§9):** the My PC page still queries TechPowerUp live from the browser; the proposal is to search offline data only. |
 
 ---
@@ -81,7 +82,7 @@ SpecRecs.github.io/
 │   ├── explanations/         # M4
 │   ├── build/                # M6: existing My PC page
 │   └── pages/, components/   # M6
-├── fixtures/                 # M0: small hand-written test datasets
+├── fixtures/                 # M0: hand-written test catalog (catalog.ts) and requests (requests.ts)
 ├── config/                   # M4: workload_weights.json, upgrade_thresholds.json
 ├── data/
 │   ├── source/               # M1: curated part sheets, gaming score sheet, prices_manual.csv
@@ -90,8 +91,9 @@ SpecRecs.github.io/
 │   ├── specs/                # M1 (scripts/build_data.mjs moves here)
 │   ├── pricing/              # M3 (TBA)
 │   └── snapshot/             # M5
-├── public/data/              # M5: published snapshot, served as /data/*.json
+├── public/data/              # lookup catalog (*.json); M5 publishes the candidate snapshot to catalog/
 ├── test/
+│   ├── types/                # M0: validator and fixture tests (npm test)
 │   ├── scenarios/            # M4: end-to-end recommendation scenarios
 │   └── coverage.mjs          # My PC search coverage test (see coverage.md)
 └── .github/workflows/        # M5 (deploy.yml)
@@ -104,6 +106,30 @@ Rule for every agent: **only edit files in the directories you own.** If a contr
 ## 5. Module 0: Contracts and Fixtures (do first, sequentially)
 
 Every other module builds against the output of this one. Do it yourself or with a single agent before spawning anything else.
+
+**Status: done (2026-11-25).** Where this section and the code differ, the code in `src/types/` wins:
+
+| File | Contents |
+|---|---|
+| `src/types/common.ts` | Shared enums (sockets, memory types, form factors, power connectors, size and style) |
+| `src/types/ids.ts` | ID format, `slugify()`, `variantId()` |
+| `src/types/parts.ts` | Candidate part entities |
+| `src/types/catalog.ts` | `Price`, `Catalog`, `Manifest`, `Snapshot`, `WithCandidate` (lookup → candidate link) |
+| `src/types/compatibility.ts` | M2 contract: `BuildParts`, `RuleId`, `CompatibilityReport`, `CompatibilityConfig` |
+| `src/types/recommendation.ts` | M4 contract: `Recommendation`, `Reason`, `Warning`, `PerfEstimate` |
+| `src/types/request.ts` | `UserRequest`, `CurrentSystem` |
+| `src/types/validate.ts`, `validators.ts` | Runtime checks for every entity, and `validateCatalog()` for IDs and cross-file references |
+| `fixtures/catalog.ts` | Test catalog; `EDGE_CASES` names the deliberate problem pairs |
+| `fixtures/requests.ts` | The inputs of the M4 scenarios (no expected outcomes) |
+
+Conventions settled by M0:
+
+- Every key on a part is required; unknown values are `null`, never omitted.
+- `perf.gaming` is `perf.gaming_fps` and the GPU fields are `r1080_fps`, `r1440_fps`, `r4k_fps` (see "Performance scores" below).
+- Prices key on purchasable IDs. A GPU price names a variant, never a family.
+- A board's `supported_cpu_ids` is a list of CPU IDs, `"socket"` (every CPU on its socket), or `null` (not curated, so support is reported as unknown).
+- Cases carry `size_class` and `radiator_mm_supported`; AIO coolers carry `radiator_mm` instead of `height_mm`.
+- The candidate snapshot is published as one file per `Catalog` key in `public/data/catalog/` (`cpus.json`, `gpu_families.json`, …, `prices.json`, `manifest.json`), separate from the lookup files.
 
 ### Deliverables
 
@@ -131,7 +157,10 @@ Every other module builds against the output of this one. Do it yourself or with
 
 The part entities above describe the **candidate catalog**. Lookup-catalog parts keep the fields their dataset provides (see `src/build/raw.ts`) plus a link to the matching candidate, when one exists.
 
-Performance scores are normalized: one reference part per dimension = 100.
+Performance scores:
+
+- **Gaming is FPS, not normalized:** `cpu.perf.gaming_fps` is the FPS a CPU sustains at 1080p when the GPU isn't the limit. `gpu_family.perf.r1080_fps` / `r1440_fps` / `r4k_fps` are the estimated average FPS from the GPU sheet. Gains are FPS ratios.
+- **Other dimensions are normalized** so a reference part = 100: Ryzen 5 5600X for CPU `single` and `multi`, RTX 3060 12GB for GPU `rt`.
 
 ### Acceptance
 
@@ -262,8 +291,7 @@ Phase D:               M6 switches to real snapshot; M3 once pricing is decided
 
 - **Pricing source and collection method** (M3).
 - **Live TechPowerUp calls on the My PC page.** Proposal: remove them and search offline data only. With TechPowerUp unreachable, the coverage queries still find all 54 GPUs and 53 CPUs (checked 2026-10-19). Scores drop slightly: 51 GPUs instead of 53, and 52 CPUs instead of 53. TechPowerUp could still enrich candidate parts once, through the pipeline. Until this is settled, the page breaks rule 4 in §8.
-- **Canonical part IDs.** Today's IDs are hashes of a record's contents, so they change when upstream data changes, and the same GPU has different IDs per source. Proposal: model-based IDs (e.g. `rtx-4070`) that join specs, scores and prices.
 - **Snapshot location.** It's committed to `public/data/` on `main` today (about 4 MB). Keep it there, or publish it separately once prices change often.
 - Which parts go on the curated allowlist for each category.
-- The reference part for each normalized performance dimension.
+- Where CPU `gaming_fps` caps come from. The GPU sheet only covers GPUs; M1 needs a CPU equivalent on the same game suite.
 - Initial workload weights and upgrade thresholds (start from `plan.md` §16 and §19).
