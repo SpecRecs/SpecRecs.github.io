@@ -27,6 +27,10 @@ export const upgradeMissingPsu: UserRequest = {
   current_system: { ...upgrade5600x3060.current_system, psu: undefined },
 };
 
+// The same system for productivity work, where the CPU is the bottleneck: exercises the full
+// cascading cost of a platform change.
+export const upgradeProductivity: UserRequest = { ...upgrade5600x3060, purpose: "productivity" };
+
 export const newBuild1080p: UserRequest = { mode: "new", purpose: "gaming", budget_max_usd: 1000, resolution: "1080p" };
 export const newBuild4k: UserRequest = { mode: "new", purpose: "gaming", budget_max_usd: 2500, resolution: "4k" };
 export const newBuildItx: UserRequest = { mode: "new", purpose: "gaming", budget_max_usd: 1500, resolution: "1440p", size_pref: "small" };

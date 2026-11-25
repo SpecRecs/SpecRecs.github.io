@@ -152,7 +152,7 @@ Conventions settled by M0:
 | `storage` | `interface` (NVMe/SATA), `form_factor`, `capacity_gb` |
 | `price` | `product_id`, `price_usd`, `retailer`, `condition`, `last_checked`, `source` |
 | `user_request` | `mode` (new/upgrade), `purpose`, `budget_max_usd`, `budget_preferred_usd`, `resolution`, `size_pref`, `style_pref`, `current_system` (all fields optional) |
-| `recommendation` | `category` (best_fit/best_value/performance), `parts[]`, `total_cost_usd`, `perf_estimate`, `gain_pct`, `reasons[]`, `warnings[]` |
+| `recommendation` | `categories[]` (best_fit/best_value/performance), `parts[]`, `total_cost_usd`, `perf_estimate`, `gain_pct`, `reasons[]`, `warnings[]` |
 | `reason` | `type`, `component`, plus typed payload (see `plan.md` §23) |
 
 The part entities above describe the **candidate catalog**. Lookup-catalog parts keep the fields their dataset provides (see `src/build/raw.ts`) plus a link to the matching candidate, when one exists.
@@ -192,7 +192,7 @@ Each module brief lists its ownership, inputs, outputs, rules, and definition of
 
 - **Owns:** `src/compatibility/`
 - **Inputs:** Shared types; fixtures only
-- **Outputs:** `checkBuild(parts) → { valid: boolean, violations: Violation[], notes: Note[] }` and per-pair helpers (e.g., `cpuFitsBoard`, `gpuFitsCase`)
+- **Outputs:** `checkBuild(parts, config) → CompatibilityReport` (`{ valid, violations, unknown, notes }`, see `src/types/compatibility.ts`), exported from `src/compatibility/index.ts`, plus per-pair helpers (e.g., `cpuFitsBoard`, `gpuFitsCase`)
 - **Hard rules:** Socket, memory type, board-to-case form factor, GPU length, cooler height and socket, PSU wattage (with headroom from config), PSU connectors, PSU form factor, CPU support on the board, M.2 slot count.
 - **Soft rules:** Returned as `notes`, never as violations.
 - **Rules:** Pure functions with no I/O. Every rule gets a pass test and a fail test. Missing data produces an `unknown` result, not a pass.
@@ -217,7 +217,7 @@ Until this is decided, M4 and M6 use fixture prices, and M5 accepts manual price
 - **Owns:** `src/recommendation/`, `src/explanations/`, `config/`, `test/scenarios/`
 - **Inputs:** Shared types; the M2 interface; fixtures
 - **Prerequisite:** gaming scores from the starter sheet (§2). Don't start real-data integration on Blender scores alone.
-- **Outputs:** `recommend(request, snapshot) → Recommendation[]` (best fit, best value, performance) and `explain(reason) → string`
+- **Outputs:** `recommend(request, catalog) → Recommendation[]` (best fit, best value, performance) and `explain(reason) → string`, both exported from `src/recommendation/index.ts`
 - **Pipeline:** filter (compatibility, budget, price present) → score (workload weights from config) → compare (against the current system, including the full cascading cost) → explain (reason objects).
 - **Rules:**
   - Deterministic: same input and snapshot, same output. Break ties by `id`.
@@ -226,12 +226,17 @@ Until this is decided, M4 and M6 use fixture prices, and M5 accepts manual price
   - Parts without a price are excluded.
   - Recommend only candidate-catalog parts. The user's current parts come from the lookup catalog and are compared through their candidate mapping.
   - Use the gaming model from §2.
-- **Scenario tests (the contract with the frontend):**
-  - 5600X + RTX 3060, $600, 1440p → should favor a GPU upgrade; should cost AM5 migration in full
-  - $1,000 new build, 1080p gaming
-  - $2,500 new build, 4K gaming
+  - **Unknown compatibility:** a part whose rule comes back `unknown` (missing data) is allowed, and the recommendation carries a `compatibility_unknown` warning for that rule.
+  - **Missing current part info:** assume the part is adequate, don't buy a replacement for it, and add a `missing_info` warning (for the PSU: `psu` / `wattage_w`).
+  - **Distinct builds:** return 1–3 recommendations. A build that wins several categories is returned once with all of them in `categories`.
+  - **Ray tracing is a tie-breaker** in the gaming GPU score, not a reason to pay more for equal raster FPS.
+- **Scenario tests (the contract with the frontend):** written in `test/scenarios/scenarios.test.ts` against the fixtures, with exact picks where the fixture math leaves one answer. They skip until `src/recommendation/` and `src/compatibility/` exist. Every scenario also checks shared invariants: within budget, total = sum of parts, priced candidate parts only, complete new builds, no violations, warnings for unknowns, full platform cost, determinism, and an explanation for every reason.
+  - 5600X + RTX 3060, $600, 1440p → GPU-only upgrades. Best fit and performance: RX 9060 XT 16GB (+54%). Best value: Arc B580 (+40% for $329).
+  - Same system, productivity → best fit: Core i5-14600K + B760M DDR4, reusing the DDR4 kit; `platform_change` costs the full $348; warns that the board's CPU support is unknown
+  - $1,000 new build, 1080p gaming → best fit uses the Arc B580 (76 FPS); the RX 9060 XT can't fit in budget
+  - $2,500 new build, 4K gaming → best fit uses the RX 9070 XT (80 FPS, same as the RTX 5070 Ti for $321 less)
   - Mini-ITX size preference → every result fits ITX
-  - Upgrade with missing PSU info → recommendation plus a request for the PSU field
+  - Upgrade with missing PSU info → same pick as the first scenario, no PSU bought, plus a request for the PSU wattage
 - **Done when:** Scenario tests pass, and every recommendation has at least one reason. The engine is deterministic across repeated runs.
 
 ### M5: Snapshot Build and Validation (Node/TypeScript + CI)

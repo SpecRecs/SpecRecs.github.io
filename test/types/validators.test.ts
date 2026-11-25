@@ -118,7 +118,7 @@ describe("entity validators", () => {
 
   it("require at least one reason per recommendation", () => {
     const rec: Recommendation = {
-      category: "best_fit", mode: "upgrade",
+      categories: ["best_fit", "performance"], mode: "upgrade",
       parts: [{ component: "gpu", part_id: "rtx-5070--msi-ventus-2x-oc", price_usd: 839, retailer: "Newegg", last_checked: "2026-11-20", replaces: "RTX 3060" }],
       total_cost_usd: 839,
       perf_estimate: { gaming: { resolution: "1440p", fps: 106, cpu_cap_fps: 140, gpu_cap_fps: 106, limited_by: "gpu" }, single: 100, multi: 100 },

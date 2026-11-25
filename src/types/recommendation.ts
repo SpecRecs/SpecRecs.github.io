@@ -54,8 +54,10 @@ export type Warning =
   | { type: "over_preferred_budget"; total_cost_usd: number; budget_preferred_usd: number }
   | { type: "price_stale"; product_id: Id; last_checked: IsoDate };
 
+// recommend() returns only distinct builds (1-3). A build that wins several categories is returned
+// once, with every category it won, in best_fit, best_value, performance order.
 export interface Recommendation {
-  category: RecommendationCategory;
+  categories: RecommendationCategory[];
   mode: Mode;
   parts: RecommendedPart[];
   total_cost_usd: number;
@@ -64,5 +66,7 @@ export interface Recommendation {
   gain_pct: number | null;
   // At least one per recommendation.
   reasons: Reason[];
+  // Includes compatibility_unknown for every rule that came back "unknown": such parts are allowed,
+  // but flagged.
   warnings: Warning[];
 }

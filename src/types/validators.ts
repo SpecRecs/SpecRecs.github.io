@@ -243,7 +243,7 @@ export const warning = tagged<Warning>("type", {
 });
 
 export const recommendation = obj<Recommendation>({
-  category: oneOf(["best_fit", "best_value", "performance"]),
+  categories: arr(oneOf(["best_fit", "best_value", "performance"]), { nonEmpty: true }),
   mode: oneOf(["new", "upgrade"]),
   parts: arr(recommendedPart),
   total_cost_usd: usd(),
