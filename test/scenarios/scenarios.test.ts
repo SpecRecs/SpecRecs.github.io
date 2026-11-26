@@ -117,7 +117,8 @@ function checkInvariants(name: string, request: UserRequest, recs: Recommendatio
     }
 
     // Upgrades: changing the CPU socket brings the board with it, and changing the memory type
-    // brings the memory. The platform_change reason carries that whole cost.
+    // brings the memory. The platform_change reason carries that whole cost, including a cooler
+    // bought because the old one doesn't fit the new socket.
     if (request.mode === "upgrade") {
       const current = request.current_system!;
       const cpu = part(rec, "cpu");
@@ -130,8 +131,8 @@ function checkInvariants(name: string, request: UserRequest, recs: Recommendatio
         if (oldMemory && newBoard!.memory_type !== oldMemory.memory_type) assert.ok(part(rec, "memory"), `${label}: a new memory type includes memory`);
         const platform = rec.reasons.find((r) => r.type === "platform_change");
         assert.ok(platform, `${label}: has a platform_change reason`);
-        const platformCost = rec.parts.filter((p) => ["cpu", "motherboard", "memory"].includes(p.component)).reduce((t, p) => t + p.price_usd, 0);
-        assert.equal(platform.cost_usd, platformCost, `${label}: platform_change costs CPU + board + memory in full`);
+        const platformCost = rec.parts.filter((p) => ["cpu", "motherboard", "memory", "cooler"].includes(p.component)).reduce((t, p) => t + p.price_usd, 0);
+        assert.equal(platform.cost_usd, platformCost, `${label}: platform_change costs CPU + board + memory + cooler in full`);
       }
     }
 

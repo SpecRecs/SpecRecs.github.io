@@ -83,7 +83,7 @@ SpecRecs.github.io/
 │   ├── build/                # M6: existing My PC page
 │   └── pages/, components/   # M6
 ├── fixtures/                 # M0: hand-written test catalog (catalog.ts) and requests (requests.ts)
-├── config/                   # M4: workload_weights.json, upgrade_thresholds.json; M2: compatibility.json
+├── config/                   # M4: workload_weights.json, recommendation.json; M2: compatibility.json
 ├── data/
 │   ├── source/               # M1: curated part sheets, gaming score sheet, prices_manual.csv
 │   └── raw/                  # M1/M3: raw pulls (gitignored)
@@ -244,6 +244,14 @@ Until this is decided, M4 and M6 use fixture prices, and M5 accepts manual price
   - Mini-ITX size preference → every result fits ITX
   - Upgrade with missing PSU info → same pick as the first scenario, no PSU bought, plus a request for the PSU wattage
 - **Done when:** Scenario tests pass, and every recommendation has at least one reason. The engine is deterministic across repeated runs.
+- **Status: done (2026-11-25).** Code in `src/recommendation/` (`builds.ts` generates candidates, `rank.ts` scores and selects, `perf.ts` is the gaming model) and `src/explanations/`. Unit tests in `test/recommendation/`; all scenarios in `test/scenarios/` pass. How it works and what was decided:
+  - **Candidates:** every priced CPU × GPU pair (in upgrades, "keep current" is one option for each). Each pair gets the cheapest supporting parts that pass every hard rule. In upgrades, a current part that still fits costs $0, so it's kept. That's how a platform change picks up its board, memory and cooler cost. Sub-results are memoized: about 10 ms on the fixtures and 0.4 s on a 5× catalog.
+  - **Scoring:** weighted terms from `config/workload_weights.json`, each normalized to the best candidate. Each unknown compatibility result multiplies score and value by 0.9 (`unknown_penalty`), so a verified build wins near-ties but a large gain still wins with a warning.
+  - **Picks:** best fit = top score; best value = primary metric (new) or % gain (upgrade) per dollar; performance = top primary metric, with ties broken by fewer unknowns, then higher secondary scores (RT, CPU, VRAM), then price. That way a big budget gets a "spend more" option even when FPS is capped.
+  - **Memory:** new purchases are at least 16 GB under $1,000 and 32 GB from $1,000 (`min_memory_gb`). New builds get the cheapest drive of at least 1 TB.
+  - **Preferences:** `size_pref` is a hard filter on purchased cases (`small` also means a Mini-ITX board). `style_pref` prefers a matching case when one fits.
+  - Upgrades below `min_gain_pct` (15%) aren't recommended. `recommend()` can return an empty list.
+  - **Price staleness** is measured against the newest price in the catalog, not the clock, so results stay deterministic.
 
 ### M5: Snapshot Build and Validation (Node/TypeScript + CI)
 

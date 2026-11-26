@@ -1,0 +1,13 @@
+{
+  "default_purpose": "gaming",
+  "default_resolution": "1440p",
+  "min_gain_pct": 15,
+  "imbalance_ratio": 1.25,
+  "stale_price_days": 14,
+  "min_storage_gb": 1000,
+  "min_memory_gb": [
+    { "from_budget_usd": 0, "gb": 16 },
+    { "from_budget_usd": 1000, "gb": 32 }
+  ],
+  "unknown_penalty": 0.1
+}
