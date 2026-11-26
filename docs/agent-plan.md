@@ -278,6 +278,14 @@ Until this is decided, M4 and M6 use fixture prices, and M5 accepts manual price
   - Credit every data source in the footer (see §2, Lookup catalog sources).
   - Works at phone width.
 - **Done when:** The full flow works against fixtures, then against a real snapshot, and each scenario in `test/scenarios/` can be reproduced through the UI.
+- **Status: works against fixtures (2026-11-26); switching to the real snapshot waits on M5.** Code in `src/pages/results/`, tests in `test/pages/`. What was built and decided:
+  - **Flow:** finishing the questionnaire shows the results. Upgraders finish, enter parts on the My PC page, then follow its "See recommendations" link back. A returning user who finished lands on the results.
+  - **My PC stays plain TypeScript for now.** It's linked into the flow rather than ported to React; the port can come when the page changes. It has no case or cooler entry, so upgrades always assume those fit and warn.
+  - **Current parts** are matched to candidates by name (`current.ts`, using the page's `modelKey`). Names must match exactly, except memory and PSUs, which may match a longer candidate name when the specs agree (memory type, capacity and speed; PSU wattage). Unmatched parts are listed on the page and treated as unknown.
+  - **Catalog:** `view.ts` exports `CATALOG` (the fixtures) and `CATALOG_IS_SAMPLE`, which shows a "sample data" notice. M5's snapshot replaces both.
+  - **Results:** one card per distinct build with its category badges, total, gain (upgrades), estimated FPS (gaming) or CPU indexes, parts with retailer, price date and what each replaces, reasons (`explain`) and warnings (`explainWarning`, added to `src/explanations/`). An empty result says why, using `min_gain_pct` for upgrades.
+  - The "performance goals" screen is the resolution question; there's no separate FPS target yet.
+  - Every scenario can be entered through the UI. `test/pages/` checks that the 5600X + RTX 3060 upgrade, entered as the My PC page saves it, gets the same picks as the scenario.
 
 ---
 

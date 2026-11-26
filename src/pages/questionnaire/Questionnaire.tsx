@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { UserRequest } from "../../types/request.ts";
+import { Results } from "../results/Results.tsx";
 import { clean, labelFor, stepError, visibleSteps, type Step } from "./flow.ts";
 import { clearRequest, loadRequest, saveRequest } from "./store.ts";
 
@@ -10,16 +11,18 @@ export function Questionnaire() {
   const [request, setRequest] = useState<UserRequest>(loadRequest);
   const steps = visibleSteps(request);
   const reviewIndex = steps.length - 1;
-  // A returning user who already finished lands on the review step (or the done screen for new builds).
+  // A returning user who already finished lands on the results. Upgraders finish here, then enter
+  // their parts on the My PC page, whose "See recommendations" link brings them back.
   const [index, setIndex] = useState(() => (request.completed_at ? reviewIndex : 0));
-  const [done, setDone] = useState(() => !!request.completed_at && request.mode === "new");
+  const [done, setDone] = useState(() => !!request.completed_at);
   const [showError, setShowError] = useState(false);
   const heading = useRef<HTMLHeadingElement>(null);
 
   const step = steps[Math.min(index, reviewIndex)];
   const error = stepError(step, request);
 
-  useEffect(() => { heading.current?.focus(); }, [index, done]);
+  // Results focuses its own heading.
+  useEffect(() => { if (!done) heading.current?.focus(); }, [index, done]);
 
   function update(patch: Partial<UserRequest>) {
     const next = clean({ ...request, ...patch });
@@ -52,17 +55,7 @@ export function Questionnaire() {
   }
 
   if (done) {
-    return (
-      <section className="panel">
-        <h2 ref={heading} tabIndex={-1}>You're all set</h2>
-        <p className="lead">Build recommendations are coming soon. We've saved your answers in this browser.</p>
-        <Summary steps={steps} request={request} />
-        <div className="actions">
-          <button type="button" onClick={startOver}>Start over</button>
-          <button type="button" onClick={() => { setDone(false); goTo(reviewIndex); }}>Edit answers</button>
-        </div>
-      </section>
-    );
+    return <Results request={request} onStartOver={startOver} onEditAnswers={() => { setDone(false); goTo(reviewIndex); }} />;
   }
 
   return (

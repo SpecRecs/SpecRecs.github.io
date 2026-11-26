@@ -8,7 +8,7 @@ import { candidates, makeContext } from "./builds.ts";
 import { DEFAULT_ENGINE_CONFIG, type EngineConfig } from "./config.ts";
 import { score, select, toRecommendation } from "./rank.ts";
 
-export { explain } from "../explanations/index.ts";
+export { explain, explainWarning } from "../explanations/index.ts";
 export { DEFAULT_ENGINE_CONFIG, type EngineConfig } from "./config.ts";
 
 // 1-3 distinct builds, in best_fit, best_value, performance order. Empty when nothing fits the

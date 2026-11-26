@@ -1,0 +1,54 @@
+/* Results page. Loaded after questionnaire.css, which supplies .panel, .lead and .actions. */
+main:has(.recs-page) { max-width: 1100px; }
+.recs-page > h2 { margin: 0 0 12px; font-size: 1.4rem; text-align: center; }
+.recs-page > h2:focus { outline: none; }
+
+.notice {
+  color: var(--muted); font-size: 0.85rem; margin: 0 auto 12px; max-width: 720px;
+  border: 1px dashed var(--line); border-radius: 8px; padding: 8px 12px;
+}
+.notice p { margin: 0; }
+.notice p + p { margin-top: 4px; }
+.notice a, .recs-page a { color: var(--accent); }
+
+.recs {
+  display: grid; gap: 16px; align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+}
+.rec {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 10px; padding: 16px; min-width: 0;
+}
+.rec h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 16px 0 6px; }
+
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.badge {
+  font-size: 0.75rem; padding: 2px 10px; border-radius: 999px;
+  border: 1px solid var(--accent); color: var(--accent);
+}
+.badge.best_fit { background: var(--accent); color: var(--bg); }
+
+.rec-total { font-size: 1.8rem; font-weight: 700; margin: 10px 0 2px; display: flex; align-items: baseline; gap: 10px; }
+.gain { font-size: 1rem; color: var(--accent); }
+.rec-perf { margin: 0; }
+.muted { color: var(--muted); }
+
+.rec-parts { list-style: none; margin: 14px 0 0; padding: 0; }
+.rec-parts li {
+  display: grid; grid-template-columns: 1fr auto; column-gap: 10px;
+  padding: 8px 0; border-top: 1px solid var(--line);
+}
+.part-kind { grid-column: 1 / -1; color: var(--muted); font-size: 0.75rem; }
+.part-name { font-weight: 600; overflow-wrap: anywhere; }
+.part-price { font-variant-numeric: tabular-nums; }
+.part-meta { grid-column: 1 / -1; color: var(--muted); font-size: 0.78rem; }
+
+.reasons, .warnings { margin: 0; padding-left: 18px; font-size: 0.9rem; display: grid; gap: 4px; }
+.warnings li::marker { color: var(--accent); }
+
+.recs-page > .actions { max-width: 560px; margin: 20px auto 0; }
+a.button {
+  font-size: 0.95rem; padding: 8px 16px; text-decoration: none; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 6px;
+}
+a.button:hover { color: var(--text); border-color: var(--muted); }
